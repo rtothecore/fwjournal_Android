@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Fwjournal</string>
+    <string name="rationale_title">Permission required</string>
+    <string name="rationale_message">we need permission for find your <b>location</b></string>
+</resources>
