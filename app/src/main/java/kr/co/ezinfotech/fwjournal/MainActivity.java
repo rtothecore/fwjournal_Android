@@ -3,10 +3,13 @@ package kr.co.ezinfotech.fwjournal;
 import android.Manifest;
 import android.content.Context;
 import android.net.http.SslError;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.GeolocationPermissions;
 import android.webkit.SslErrorHandler;
@@ -20,7 +23,8 @@ import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+// public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     // https://www.journaldev.com/9333/android-webview-example-tutorial
     /**
@@ -56,11 +60,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     WebView mWebView = null;
 
+    /*
     private FloatingActionButton fab = null;
     private FloatingActionButton fab2 = null;
     private FloatingActionButton fab3 = null;
     private FloatingActionButton fab4 = null;
     private FloatingActionButton fab5 = null;
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +74,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
-        InitializeFAB();
+        // InitializeFAB();
+        InitializeBottomNavigation();
 
         runPermissionListener(this);
     }
 
+    private void InitializeBottomNavigation() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_one:
+                        mWebView.loadUrl("http://192.168.0.73:8082");
+                        return true;
+                    case R.id.action_two:
+                        mWebView.loadUrl("http://192.168.0.73:8082/search");
+                        return true;
+                    case R.id.action_three:
+                        mWebView.loadUrl("http://192.168.0.73:8082/predict");
+                        return true;
+                    case R.id.action_four:
+                        mWebView.loadUrl("http://192.168.0.73:8082/stats");
+                        return true;
+                    case R.id.action_five:
+                        mWebView.loadUrl("http://192.168.0.73:8082/config");
+                        return true;
+                }
+                return false;
+            }
+        });
+    }
+
     // http://codeman77.tistory.com/27
     // https://medium.com/wasd/android-floating-action-button-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-6ca52aba7a1f
+    /*
     private void InitializeFAB() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
@@ -98,26 +133,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (id) {
             case R.id.fab:
                 Toast.makeText(this, "영농일지", Toast.LENGTH_SHORT).show();
-                mWebView.loadUrl("https://192.168.0.73:8082");
+                mWebView.loadUrl("http://192.168.0.73:8082");
                 break;
             case R.id.fab2:
                 Toast.makeText(this, "일지검색", Toast.LENGTH_SHORT).show();
-                mWebView.loadUrl("https://192.168.0.73:8082/search");
+                mWebView.loadUrl("http://192.168.0.73:8082/search");
                 break;
             case R.id.fab3:
                 Toast.makeText(this, "작업예측", Toast.LENGTH_SHORT).show();
-                mWebView.loadUrl("https://192.168.0.73:8082/predict");
+                mWebView.loadUrl("http://192.168.0.73:8082/predict");
                 break;
             case R.id.fab4:
                 Toast.makeText(this, "통계", Toast.LENGTH_SHORT).show();
-                mWebView.loadUrl("https://192.168.0.73:8082/stats");
+                mWebView.loadUrl("http://192.168.0.73:8082/stats");
                 break;
             case R.id.fab5:
                 Toast.makeText(this, "설정", Toast.LENGTH_SHORT).show();
-                mWebView.loadUrl("https://192.168.0.73:8082/config");
+                mWebView.loadUrl("http://192.168.0.73:8082/config");
                 break;
         }
     }
+    */
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -138,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setGeolocationEnabled(true);
         mWebView.setWebChromeClient(new GeoWebChromeClient());
-        mWebView.loadUrl("https://192.168.0.73:8082");
+        mWebView.loadUrl("http://192.168.0.73:8082");
     }
 
     // Using TedPermission library - https://github.com/ParkSangGwon/TedPermission
