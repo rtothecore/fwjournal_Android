@@ -3,9 +3,6 @@ package kr.co.ezinfotech.fwjournal;
 import android.Manifest;
 import android.content.Context;
 import android.net.http.SslError;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -16,6 +13,8 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.gun0912.tedpermission.PermissionListener;
@@ -59,14 +58,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     WebView mWebView = null;
-
-    /*
-    private FloatingActionButton fab = null;
-    private FloatingActionButton fab2 = null;
-    private FloatingActionButton fab3 = null;
-    private FloatingActionButton fab4 = null;
-    private FloatingActionButton fab5 = null;
-    */
+    ImageView IvHome = null;
+    ImageView IvSearch = null;
+    ImageView IvPredict = null;
+    ImageView IvStat = null;
+    ImageView IvSet = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,86 +70,159 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
-        // InitializeFAB();
-        InitializeBottomNavigation();
-
+        InitializeBottomImageView();
         runPermissionListener(this);
     }
 
-    private void InitializeBottomNavigation() {
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_one:
-                        mWebView.loadUrl("http://192.168.0.73:8082");
-                        return true;
-                    case R.id.action_two:
-                        mWebView.loadUrl("http://192.168.0.73:8082/search");
-                        return true;
-                    case R.id.action_three:
-                        mWebView.loadUrl("http://192.168.0.73:8082/predict");
-                        return true;
-                    case R.id.action_four:
-                        mWebView.loadUrl("http://192.168.0.73:8082/stats");
-                        return true;
-                    case R.id.action_five:
-                        mWebView.loadUrl("http://192.168.0.73:8082/config");
-                        return true;
-                }
-                return false;
+    private void InitializeBottomImageView() {
+        IvHome = findViewById(R.id.IvHome);
+        IvHome.setTag("home_n");
+        IvHome.setOnClickListener(new IvHomeListener());
+
+        IvSearch = findViewById(R.id.IvSearch);
+        IvSearch.setTag("search_n");
+        IvSearch.setOnClickListener(new IvSearchListener());
+
+        IvPredict = findViewById(R.id.IvPredict);
+        IvPredict.setTag("predict_n");
+        IvPredict.setOnClickListener(new IvPredictListener());
+
+        IvStat = findViewById(R.id.IvStat);
+        IvStat.setTag("stat_n");
+        IvStat.setOnClickListener(new IvStatListener());
+
+        IvSet = findViewById(R.id.IvSet);
+        IvSet.setTag("set_n");
+        IvSet.setOnClickListener(new IvSetListener());
+    }
+
+    class IvSetListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            // Toast.makeText(MainActivity.this, "Set Clicked!", Toast.LENGTH_SHORT).show();
+            IvHome.setImageResource(R.drawable.homeicon_n);
+            IvHome.setTag("home_n");
+            IvSearch.setImageResource(R.drawable.searchicon_n);
+            IvSearch.setTag("search_n");
+            IvPredict.setImageResource(R.drawable.prediction_n);
+            IvPredict.setTag("predict_n");
+            IvStat.setImageResource(R.drawable.statisticsicon_n);
+            IvStat.setTag("stat_n");
+            ImageView tmpIv = (ImageView)v;
+            if("set_n".equals(v.getTag().toString())) {
+                tmpIv.setImageResource(R.drawable.seticon_p);
+                v.setTag("set_p");
             }
-        });
-    }
-
-    // http://codeman77.tistory.com/27
-    // https://medium.com/wasd/android-floating-action-button-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-6ca52aba7a1f
-    /*
-    private void InitializeFAB() {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
-
-        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
-        fab2.setOnClickListener(this);
-
-        fab3 = (FloatingActionButton) findViewById(R.id.fab3);
-        fab3.setOnClickListener(this);
-
-        fab4 = (FloatingActionButton) findViewById(R.id.fab4);
-        fab4.setOnClickListener(this);
-
-        fab5 = (FloatingActionButton) findViewById(R.id.fab5);
-        fab5.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.fab:
-                Toast.makeText(this, "영농일지", Toast.LENGTH_SHORT).show();
-                mWebView.loadUrl("http://192.168.0.73:8082");
-                break;
-            case R.id.fab2:
-                Toast.makeText(this, "일지검색", Toast.LENGTH_SHORT).show();
-                mWebView.loadUrl("http://192.168.0.73:8082/search");
-                break;
-            case R.id.fab3:
-                Toast.makeText(this, "작업예측", Toast.LENGTH_SHORT).show();
-                mWebView.loadUrl("http://192.168.0.73:8082/predict");
-                break;
-            case R.id.fab4:
-                Toast.makeText(this, "통계", Toast.LENGTH_SHORT).show();
-                mWebView.loadUrl("http://192.168.0.73:8082/stats");
-                break;
-            case R.id.fab5:
-                Toast.makeText(this, "설정", Toast.LENGTH_SHORT).show();
-                mWebView.loadUrl("http://192.168.0.73:8082/config");
-                break;
+            mWebView.loadUrl("http://192.168.0.73:8082/config");
         }
     }
-    */
+
+    class IvStatListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            // Toast.makeText(MainActivity.this, "Stat Clicked!", Toast.LENGTH_SHORT).show();
+            IvHome.setImageResource(R.drawable.homeicon_n);
+            IvHome.setTag("home_n");
+            IvSearch.setImageResource(R.drawable.searchicon_n);
+            IvSearch.setTag("search_n");
+            IvPredict.setImageResource(R.drawable.prediction_n);
+            IvPredict.setTag("predict_n");
+            IvSet.setImageResource(R.drawable.seticon_n);
+            IvSet.setTag("set_n");
+            ImageView tmpIv = (ImageView)v;
+            if("stat_n".equals(v.getTag().toString())) {
+                tmpIv.setImageResource(R.drawable.statisticsicon_p);
+                v.setTag("stat_p");
+            }
+            // mWebView.loadUrl("http://192.168.0.73:8082/stats");
+
+            // http://bitsoul.tistory.com/20
+            PopupMenu p = new PopupMenu(
+                    getApplicationContext(), // 현재 화면의 제어권자
+                    v); // anchor : 팝업을 띄울 기준될 위젯
+            getMenuInflater().inflate(R.layout.stat_sub_menu, p.getMenu());
+            // 이벤트 처리
+            p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    // Toast.makeText(getApplicationContext(), "팝업메뉴 이벤트 처리 - " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                    switch(item.getTitle().toString()) {
+                        case "작업시간" :
+                            mWebView.loadUrl("http://192.168.0.73:8082/workTime");
+                            break;
+                        case "환경모니터링" :
+                            mWebView.loadUrl("http://192.168.0.73:8082/environment");
+                            break;
+                    }
+                    return false;
+                }
+            });
+            p.show(); // 메뉴를 띄우기
+        }
+    }
+
+    class IvPredictListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            // Toast.makeText(MainActivity.this, "Predict Clicked!", Toast.LENGTH_SHORT).show();
+            IvHome.setImageResource(R.drawable.homeicon_n);
+            IvHome.setTag("home_n");
+            IvSearch.setImageResource(R.drawable.searchicon_n);
+            IvSearch.setTag("search_n");
+            IvStat.setImageResource(R.drawable.statisticsicon_n);
+            IvStat.setTag("stat_n");
+            IvSet.setImageResource(R.drawable.seticon_n);
+            IvSet.setTag("set_n");
+            ImageView tmpIv = (ImageView)v;
+            if("predict_n".equals(v.getTag().toString())) {
+                tmpIv.setImageResource(R.drawable.prediction_p);
+                v.setTag("predict_p");
+            }
+            mWebView.loadUrl("http://192.168.0.73:8082/predict");
+        }
+    }
+
+    class IvSearchListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            // Toast.makeText(MainActivity.this, "Search Clicked!", Toast.LENGTH_SHORT).show();
+            IvHome.setImageResource(R.drawable.homeicon_n);
+            IvHome.setTag("home_n");
+            IvPredict.setImageResource(R.drawable.prediction_n);
+            IvPredict.setTag("predict_n");
+            IvStat.setImageResource(R.drawable.statisticsicon_n);
+            IvStat.setTag("stat_n");
+            IvSet.setImageResource(R.drawable.seticon_n);
+            IvSet.setTag("set_n");
+            ImageView tmpIv = (ImageView)v;
+            if("search_n".equals(v.getTag().toString())) {
+                tmpIv.setImageResource(R.drawable.searchicon_p);
+                v.setTag("search_p");
+            }
+            mWebView.loadUrl("http://192.168.0.73:8082/search");
+        }
+    }
+
+    class IvHomeListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            // Toast.makeText(MainActivity.this, "Home Clicked!", Toast.LENGTH_SHORT).show();
+            IvSearch.setImageResource(R.drawable.searchicon_n);
+            IvSearch.setTag("search_n");
+            IvPredict.setImageResource(R.drawable.prediction_n);
+            IvPredict.setTag("predict_n");
+            IvStat.setImageResource(R.drawable.statisticsicon_n);
+            IvStat.setTag("stat_n");
+            IvSet.setImageResource(R.drawable.seticon_n);
+            IvSet.setTag("set_n");
+            ImageView tmpIv = (ImageView)v;
+            if("home_n".equals(v.getTag().toString())) {
+                tmpIv.setImageResource(R.drawable.homeicon_p);
+                v.setTag("home_p");
+            }
+            mWebView.loadUrl("http://192.168.0.73:8082");
+        }
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

@@ -16,69 +16,48 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <!-- https://material.io/tools/icons/?icon=build&style=baseline -->
-        <!--
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="bottom|end"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:backgroundTint="#45A1F5"
-            android:src="@drawable/baseline_home_black_18dp" />
+            android:orientation="horizontal"
+            android:background="@android:color/white">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="bottom|end"
-            android:layout_marginLeft="15dp"
-            android:layout_toLeftOf="@+id/fab"
-            android:backgroundTint="#45A1F5"
-            android:src="@drawable/baseline_search_black_18dp" />
+            <ImageView
+                android:id="@+id/IvHome"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="0.5"
+                android:src="@drawable/homeicon_n" />
+            <ImageView
+                android:id="@+id/IvSearch"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="0.5"
+                android:src="@drawable/searchicon_n" />
+            <ImageView
+                android:id="@+id/IvPredict"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="0.5"
+                android:src="@drawable/prediction_n" />
+            <ImageView
+                android:id="@+id/IvStat"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="0.5"
+                android:src="@drawable/statisticsicon_n" />
+            <ImageView
+                android:id="@+id/IvSet"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="0.5"
+                android:src="@drawable/seticon_n" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="bottom|end"
-            android:layout_toLeftOf="@+id/fab2"
-            android:backgroundTint="#45A1F5"
-            android:src="@drawable/baseline_assignment_late_black_18dp" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="bottom|end"
-            android:layout_marginRight="15dp"
-            android:layout_toRightOf="@+id/fab"
-            android:backgroundTint="#45A1F5"
-            android:src="@drawable/baseline_assessment_black_18dp" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="bottom|end"
-            android:layout_toRightOf="@+id/fab4"
-            android:backgroundTint="#45A1F5"
-            android:src="@drawable/baseline_build_black_18dp" />
-        -->
-
+        </LinearLayout>
         <!-- https://material.io/design/components/bottom-navigation.html# -->
         <!-- https://thdev.tech/androiddev/2016/12/16/Android-BottomNavigationView-Intro.html -->
+        <!--
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
@@ -89,6 +68,7 @@
             app:itemTextColor="@color/colorItemIconTint"
             app:layout_behavior="tech.thdev.app.view.BottomNavigationBehavior"
             app:menu="@layout/bottom_navigation_menu" />
+         -->
 
     </RelativeLayout>
 

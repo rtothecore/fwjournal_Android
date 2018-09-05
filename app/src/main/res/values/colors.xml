@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorItemIconTint">#FFFFFF</color>
     <color name="colorItemText">#FFFFFF</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>
